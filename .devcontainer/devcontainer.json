@@ -1,0 +1,57 @@
+{
+  "name": "Next.js + PostgreSQL Todo App",
+  "dockerComposeFile": ["docker-compose.yml"],
+  "service": "app",
+  "workspaceFolder": "/workspace",
+  "shutdownAction": "stopCompose",
+  
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "nodeGypDependencies": true,
+      "version": "20"
+    },
+    "ghcr.io/devcontainers/features/git:1": {
+      "ppa": true,
+      "version": "latest"
+    }
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.vscode-typescript-next",
+        "bradlc.vscode-tailwindcss",
+        "prisma.prisma",
+        "ms-vscode.vscode-json",
+        "esbenp.prettier-vscode",
+        "ms-vscode.vscode-eslint",
+        "GitHub.copilot",
+        "GitHub.copilot-chat",
+        "ms-ossdata.vscode-pgsql"
+      ],
+      "settings": {
+        "typescript.preferences.includePackageJsonAutoImports": "on",
+        "typescript.suggest.autoImports": true,
+        "editor.formatOnSave": true,
+        "tailwindCSS.experimental.classRegex": [
+          ["clsx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+        ]
+      }
+    }
+  },
+
+  "forwardPorts": [3000, 5432],
+  "portsAttributes": {
+    "3000": {
+      "label": "Next.js App",
+      "onAutoForward": "notify"
+    },
+    "5432": {
+      "label": "PostgreSQL Database"
+    }
+  },
+
+  "postCreateCommand": "cd awesome-copilot && cp .env.example .env && npm install && npx prisma generate && npx prisma db push",
+
+  "remoteUser": "node"
+}
